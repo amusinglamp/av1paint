@@ -127,3 +127,14 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+# pycharm stuff
+/.idea/.gitignore
+/.idea/av1paint.iml
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/vcs.xml
+
+# my custom ignorables
+/samples/color/grey/
+/samples/color/websafe/
+/samples/size/
