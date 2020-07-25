@@ -17,7 +17,7 @@ Taking a solid color image as the current model, what do I currently understand 
 | 274-277 | media data box header     | 6d646174
 | 278-280 | unclear     | 12000a
 | 281-282 | size class  | 0x0518 - 1x1 to 8x8 ¦ 0x0618 - 9x9 to 64x64 ¦ 0x0718 - 512x512 ¦ 0x081c - 4192x4192 |
-| 283-288 | unclear     | 0cffdb008032 |
+| 283-288 | varies somehow with size | 0cffdb008032 |
 | 289     | count of bytes to EOF | |
 | 290-299    | unclear, same for all solid colour | 0x0cffdb008032 |
 | 300 - EOF | colour and other variable information | | 

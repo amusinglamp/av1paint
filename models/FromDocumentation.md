@@ -45,3 +45,55 @@ n color_config:
   8 matrix_coefficients
 1 film_grain_params_present
 ```
+
+an AV1 Image Item shall obey the following constraints:
+* The AV1 Image Item shall be associated with an AV1 Item Configuration Property.
+
+_I think calling it an item means it is listed in the iloc_
+
+The content of an AV1 Image Item is called the AV1 Image Item Data and shall obey the following constraints:
+* The AV1 Image Item Data shall be identical to the content of an AV1 Sample marked as sync, as defined in [AV1-ISOBMFF]. Since such [AV1 Samples] may be composed of multiple frames, e.g. each corresponding to a different spatial layer, [AV1 Image Items] may represent multi-layered images.
+
+**Sync Items**:
+
+```From any sync sample, an AV1 bitstream is formed by first outputting the OBUs contained in the AV1CodecConfigurationBox and then by outputing all OBUs in the samples themselves, in order, starting from the sync sample.```
+* The first frame is a Key Frame that has show_frame set to 1
+* It has a sequence Header OBU before the first Frame Header OBU
+
+
+* The AV1 Image Item Data shall have exactly one Sequence Header OBU.
+* The AV1 Image Item Data should have its still_picture flag set to 1.
+* The AV1 Image Item Data should have its reduced_still_picture_header flag set to 1.
+
+###OBU Header:
+
+* Forbidden bit 1
+* Type: [Sequence Header: 1 ¦ Frame Header: 3 ¦ Frame: 6 ¦ Padding  15]
+* 3 bits for Extension:[0], size_field:[?], reserved: [0].
+
+####in hex digits:
+
+Sequence header: 0¦0001¦000 = ```08``` or ```10``` with a size field
+
+Frame header: 0¦0011¦000 = ```18``` or ```1a``` with a size field
+
+## YCbCr / YUV
+
+The default colour format for av1 is ITU-R BT.709 - we'll want to target that to get the smallest files.
+If we convert from an 8bit per pixel RBG format, then some different RGB values will map to the same YCbCr values
+
+
+Kry = 0.2126
+Kby - 0.0722
+
+Kru = -Kry
+Kgu = - Kgy
+Kbu = 1-Kby
+Krv = 1-Kry
+Kgv = -Kgy
+Kbv = -Kby
+
+Y = Kry*R + Kgy * G + Kby * B
+Cb = Kru*R + Kgu* G + Kbu * B
+Cr = Krv*R + Kgv* G + Kbv * B
+
